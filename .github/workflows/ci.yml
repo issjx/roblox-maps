@@ -18,7 +18,7 @@ jobs:
     name: Lint · StyLua format · Selene
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: CompeyDev/setup-rokit@v0.2.1
         with: { cache: "true" }
       - name: Format (StyLua)
@@ -30,7 +30,7 @@ jobs:
     name: Tests · shared code (Lune)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: CompeyDev/setup-rokit@v0.2.1
         with: { cache: "true" }
       - run: lune run tests/run
@@ -39,7 +39,7 @@ jobs:
     name: Maps · validate + build every place
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: CompeyDev/setup-rokit@v0.2.1
         with: { cache: "true" }
       - name: Maps built by code (build.luau) match their committed Map.rbxmx
