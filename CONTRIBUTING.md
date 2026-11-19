@@ -9,7 +9,7 @@ map **cannot be merged**: if both of us change the same `Map.rbxmx`, one person'
 |---|---|---|
 | `maps/<name>/` | the `owner` in that map's `map.json` | the other person |
 | `src/` (shared by every map) | both | the other person — think about **every** map |
-| `.github/`, `scripts/`, docs | lead (@issjx) | the other person |
+| `.github/`, `scripts/`, docs | lead (@issjx) | @Abo6le |
 
 **One map, one owner at a time.** Want to change someone else's map? Ask first, they push what
 they have, then you take it (change `owner` in `map.json` in your PR).

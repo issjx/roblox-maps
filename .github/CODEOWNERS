@@ -1,9 +1,10 @@
 # Code owners — GitHub requests their review automatically.
 #
-#   @issjx      owner / lead
-#   (friend)    add their handle below once they accept the collaborator invite
+#   @issjx    owner / lead
+#   @Abo6le   collaborator
 #
-# A map's owner is also written in maps/<name>/map.json ("owner").
+# A map's owner is also written in maps/<name>/map.json ("owner"); the other person reviews.
 # A handle here only works while that person is a collaborator on the repository.
+# GitHub never asks you to review your own PR, so listing both means "the other one" is always asked.
 
-*            @issjx
+*            @issjx @Abo6le
