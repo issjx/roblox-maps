@@ -20,6 +20,6 @@ fi
 # 3. Format + lint the Luau files being committed.
 lua=$(echo "$staged" | grep -E '\.(lua|luau)$' || true)
 if [ -n "$lua" ]; then
-  echo "$lua" | xargs stylua --check || { echo "pre-commit: run  stylua src maps tests scripts  to fix formatting"; exit 1; }
+  echo "$lua" | xargs stylua --check || { echo "pre-commit: run  stylua src maps tests scripts tools  to fix formatting"; exit 1; }
   echo "$lua" | xargs selene
 fi

@@ -9,13 +9,20 @@
 --     src/ or maps/<name>/scripts/ where reviewers can read it)
 --   * has Checkpoints that skip a number (Stage1, Stage2, Stage4)
 --   * is bigger than the size / part budget below
+--   * has a Course (P001, P002, ...) with a jump a default character can't fairly make
 
 local fs = require("@lune/fs")
 local process = require("@lune/process")
 local roblox = require("@lune/roblox")
 local serde = require("@lune/serde")
 
+local Jump = require("../src/shared/Jump")
 local Stages = require("../src/shared/Stages")
+
+local function asBox(part: any)
+	local p, s = part.CFrame.Position, part.Size
+	return { position = { x = p.X, y = p.Y, z = p.Z }, size = { x = s.X, y = s.Y, z = s.Z } }
+end
 
 local MAX_FILE_MB = 25
 local MAX_PARTS = 30000
@@ -127,8 +134,38 @@ local function checkMap(dir: string)
 		end
 	end
 
+	-- Course: every jump SpawnLocation -> P001 -> P002 -> ... must be fair (src/shared/Jump.luau).
+	local course = map:FindFirstChild("Course")
+	local jumps = 0
+	if course then
+		local platforms = {}
+		for _, child in course:GetChildren() do
+			if child:IsA("BasePart") and string.match(child.Name, "^P%d%d%d$") then
+				table.insert(platforms, child)
+			end
+		end
+		table.sort(platforms, function(a, b)
+			return a.Name < b.Name
+		end)
+		local spawn = map:FindFirstChildWhichIsA("SpawnLocation")
+		if spawn then
+			table.insert(platforms, 1, spawn)
+		end
+		for i = 2, #platforms do
+			local a, b = platforms[i - 1], platforms[i]
+			local fair, gap, rise, limit = Jump.check(asBox(a), asBox(b))
+			jumps += 1
+			if not fair then
+				local why = if limit == nil
+					then string.format("step up %.1f > max %.1f", rise, Jump.maxRise())
+					else string.format("gap %.1f > max %.1f at rise %.1f", gap, limit, rise)
+				fail(dir, string.format("impossible jump %s -> %s: %s", a.Name, b.Name, why))
+			end
+		end
+	end
+
 	if failures == before then
-		print(string.format("  ok    %s (%d parts, %d spawn)", dir, parts, spawns))
+		print(string.format("  ok    %s (%d parts, %d spawn, %d jumps checked)", dir, parts, spawns, jumps))
 	end
 end
 

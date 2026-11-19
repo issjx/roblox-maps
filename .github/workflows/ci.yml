@@ -22,9 +22,9 @@ jobs:
       - uses: CompeyDev/setup-rokit@v0.2.1
         with: { cache: "true" }
       - name: Format (StyLua)
-        run: stylua --check src maps tests scripts
+        run: stylua --check src maps tests scripts tools
       - name: Lint (Selene)
-        run: selene src maps tests scripts
+        run: selene src maps tests scripts tools
 
   test:
     name: Tests · shared code (Lune)
@@ -42,7 +42,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: CompeyDev/setup-rokit@v0.2.1
         with: { cache: "true" }
-      - name: Validate maps (structure, no hidden scripts, spawns, checkpoints, budgets)
+      - name: Maps built by code (build.luau) match their committed Map.rbxmx
+        run: lune run scripts/build-maps --check
+      - name: Validate maps (structure, no hidden scripts, spawns, checkpoints, fair jumps, budgets)
         run: lune run scripts/validate-maps
       - name: Build every map with Rojo
         run: bash scripts/build.sh

@@ -1,0 +1,22 @@
+{
+  "name": "demo-obby",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "Shared": { "$path": "../../src/shared" }
+    },
+    "ServerScriptService": {
+      "Common": { "$path": "../../src/server" },
+      "MapScripts": { "$path": "scripts" }
+    },
+    "Lighting": {
+      "$properties": {
+        "ClockTime": 17.6,
+        "Brightness": 2
+      }
+    },
+    "Workspace": {
+      "Map": { "$path": "Map.rbxmx" }
+    }
+  }
+}

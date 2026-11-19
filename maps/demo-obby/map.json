@@ -1,0 +1,9 @@
+{
+  "name": "Demo Obby",
+  "description": "12-platform starter obby over lava that proves the build-by-code pipeline.",
+  "owner": "issjx",
+  "status": "wip",
+  "maxPlayers": 20,
+  "universeId": null,
+  "placeId": null
+}
