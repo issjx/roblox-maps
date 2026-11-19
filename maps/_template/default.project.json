@@ -1,0 +1,16 @@
+{
+  "name": "_template",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "Shared": { "$path": "../../src/shared" }
+    },
+    "ServerScriptService": {
+      "Common": { "$path": "../../src/server" },
+      "MapScripts": { "$path": "scripts" }
+    },
+    "Workspace": {
+      "Map": { "$path": "Map.rbxmx" }
+    }
+  }
+}

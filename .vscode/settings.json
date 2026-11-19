@@ -1,0 +1,11 @@
+{
+  "editor.formatOnSave": true,
+  "[luau]": { "editor.defaultFormatter": "JohnnyMorganz.stylua" },
+  "[lua]": { "editor.defaultFormatter": "JohnnyMorganz.stylua" },
+  "files.eol": "\n",
+  "files.associations": { "*.rbxmx": "xml" },
+  "luau-lsp.sourcemap.enabled": true,
+  "luau-lsp.sourcemap.autogenerate": true,
+  "luau-lsp.sourcemap.rojoProjectFile": "maps/_template/default.project.json",
+  "luau-lsp.require.mode": "relativeToFile"
+}

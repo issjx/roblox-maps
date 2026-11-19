@@ -1,0 +1,9 @@
+{
+  "name": "Template",
+  "description": "Starting point copied by scripts/new-map.ps1. Not published.",
+  "owner": "issjx",
+  "status": "template",
+  "maxPlayers": 20,
+  "universeId": null,
+  "placeId": null
+}

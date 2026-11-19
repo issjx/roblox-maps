@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Full check before a push — the same script CI runs.
+set -euo pipefail
+export PATH="$HOME/.rokit/bin:$PATH"
+bash scripts/check.sh

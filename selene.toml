@@ -1,0 +1,3 @@
+# Roblox globals (game, workspace, Instance, ...) for src/ and maps/.
+# Lune scripts (tests/, scripts/) only use standard Luau plus `require("@lune/...")`.
+std = "roblox"

@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Fast checks on every commit (< 2 s). Installed by scripts/setup.ps1 (git config core.hooksPath .githooks).
+# CI is the real gate — this only tells you sooner.
+set -euo pipefail
+export PATH="$HOME/.rokit/bin:$PATH"
+
+# 1. Never commit to main directly.
+if [ "$(git rev-parse --abbrev-ref HEAD)" = "main" ]; then
+  echo "pre-commit: you are on main. Create a branch first (e.g. map/lava-run) — main only changes through pull requests."
+  exit 1
+fi
+
+# 2. No built places or secrets.
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+if echo "$staged" | grep -qE '\.rbxl$|\.rbxlx$|(^|/)\.env'; then
+  echo "pre-commit: don't commit .rbxl/.rbxlx places or .env files. Maps are saved as maps/<name>/Map.rbxmx."
+  exit 1
+fi
+
+# 3. Format + lint the Luau files being committed.
+lua=$(echo "$staged" | grep -E '\.(lua|luau)$' || true)
+if [ -n "$lua" ]; then
+  echo "$lua" | xargs stylua --check || { echo "pre-commit: run  stylua src maps tests scripts  to fix formatting"; exit 1; }
+  echo "$lua" | xargs selene
+fi

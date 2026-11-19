@@ -1,0 +1,16 @@
+# Normalise text to LF in the repository; Windows checkouts convert as needed.
+* text=auto eol=lf
+
+# Maps are saved from Studio as XML models (.rbxmx). They are text, so GitHub can show that a map
+# changed, but Git must NEVER try to auto-merge two edits to the same map: a line-level merge of
+# Roblox XML produces a file Studio cannot open. `merge=binary` makes Git keep one side and report
+# a conflict instead. This is why every map has one owner at a time (CONTRIBUTING.md "Maps").
+*.rbxmx text eol=lf merge=binary linguist-generated
+*.rbxlx text eol=lf merge=binary linguist-generated
+*.rbxm  binary
+*.rbxl  binary
+
+# Git hooks and CI scripts run in bash: a CRLF shebang breaks them.
+*.sh        text eol=lf
+.githooks/* text eol=lf
+*.ps1       text eol=crlf

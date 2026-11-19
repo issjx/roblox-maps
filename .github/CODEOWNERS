@@ -1,0 +1,9 @@
+# Code owners — GitHub requests their review automatically.
+#
+#   @issjx      owner / lead
+#   (friend)    add their handle below once they accept the collaborator invite
+#
+# A map's owner is also written in maps/<name>/map.json ("owner").
+# A handle here only works while that person is a collaborator on the repository.
+
+*            @issjx

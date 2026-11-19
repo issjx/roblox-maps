@@ -1,0 +1,55 @@
+# Publishes one map to Roblox from main.  Actions → Publish map → Run workflow → pick the map.
+#
+# Needs (once, see docs/PUBLISHING.md):
+#   * repository secret ROBLOX_API_KEY — Open Cloud key with "universe-places: write" for the experience
+#   * environment "roblox-production" — add yourselves as required reviewers so a publish needs a click
+#   * maps/<name>/map.json with numeric universeId and placeId
+name: Publish map
+
+on:
+  workflow_dispatch:
+    inputs:
+      map:
+        description: "Map folder name (e.g. lava-run)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-${{ inputs.map }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish ${{ inputs.map }}
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: roblox-production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: CompeyDev/setup-rokit@v0.2.1
+      - name: Validate and build
+        env: { MAP: "${{ inputs.map }}" }
+        run: |
+          [[ "$MAP" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || { echo "bad map name"; exit 1; }
+          [ -d "maps/$MAP" ] || { echo "maps/$MAP does not exist"; exit 1; }
+          lune run scripts/validate-maps
+          bash scripts/build.sh "$MAP"
+      - name: Upload to Roblox (Open Cloud place publishing)
+        env:
+          MAP: "${{ inputs.map }}"
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}
+        run: |
+          [ -n "$ROBLOX_API_KEY" ] || { echo "ROBLOX_API_KEY secret is not set (docs/PUBLISHING.md)"; exit 1; }
+          universe=$(jq -r '.universeId // empty' "maps/$MAP/map.json")
+          place=$(jq -r '.placeId // empty' "maps/$MAP/map.json")
+          [ -n "$universe" ] && [ -n "$place" ] || { echo "set universeId and placeId in maps/$MAP/map.json"; exit 1; }
+          curl --fail-with-body -sS -X POST \
+            "https://apis.roblox.com/universes/v1/$universe/places/$place/versions?versionType=Published" \
+            -H "x-api-key: $ROBLOX_API_KEY" \
+            -H "Content-Type: application/octet-stream" \
+            --data-binary "@build/$MAP.rbxl"
+          echo
+          echo "Published $MAP to place $place."
