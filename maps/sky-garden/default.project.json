@@ -9,6 +9,16 @@
       "Common": { "$path": "../../src/server" },
       "MapScripts": { "$path": "scripts" }
     },
+    "Lighting": {
+      "$properties": {
+        "ClockTime": 10,
+        "Brightness": 2.5,
+        "Ambient": [0.65, 0.75, 0.85],
+        "OutdoorAmbient": [0.7, 0.8, 0.9],
+        "FogColor": [0.56, 0.83, 1],
+        "FogEnd": 2500
+      }
+    },
     "Workspace": {
       "Map": { "$path": "Map.rbxmx" }
     }
