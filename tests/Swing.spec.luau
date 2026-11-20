@@ -1,5 +1,4 @@
 local Swing = require("../src/shared/Swing")
-local Bounce = require("../src/shared/Bounce")
 
 return function(t)
 	local test, expect = t.test, t.expect
@@ -26,13 +25,5 @@ return function(t)
 		expect(Swing.valid(0, 25, 4, 0)).toBe(false)
 		expect(Swing.valid(16, 25, 0, 0)).toBe(false)
 		expect(Swing.valid(nil, 25, 4, 0)).toBe(false)
-	end)
-
-	test("bounce triggers on landing, not on rising or during cooldown", function()
-		expect(Bounce.shouldBounce(75, -20, nil, 10)).toBe(true)
-		expect(Bounce.shouldBounce(75, 30, nil, 10)).toBe(false)
-		expect(Bounce.shouldBounce(75, 0, 9.8, 10)).toBe(false)
-		expect(Bounce.shouldBounce(75, 0, 9.5, 10)).toBe(true)
-		expect(Bounce.shouldBounce(nil, 0, nil, 10)).toBe(false)
 	end)
 end

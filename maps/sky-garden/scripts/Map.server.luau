@@ -15,7 +15,7 @@ local course = map:WaitForChild("Course")
 local bonus = map:FindFirstChild("Bonus")
 local decoration = map:FindFirstChild("Decoration")
 
-local lastBounce: { [Instance]: number } = {}
+local lastBounce: { [Instance]: number } = setmetatable({}, { __mode = "k" }) :: any
 Players.PlayerRemoving:Connect(function(player)
 	if player.Character then
 		lastBounce[player.Character] = nil
@@ -133,7 +133,7 @@ if #seats > 0 then
 				local d = seat.ropeDist
 				rope.CFrame = CFrame.new(
 					seat.pivot + Vector3.new(d * math.sin(s.theta), -d * math.cos(s.theta), 0)
-				) * CFrame.Angles(0, 0, -s.theta)
+				) * CFrame.Angles(0, 0, s.theta)
 			end
 		end
 	end)
