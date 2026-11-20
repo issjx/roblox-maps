@@ -1,0 +1,9 @@
+{
+    "name":  "Sky Garden",
+    "description":  "TODO: one line about the map",
+    "owner":  "issjx",
+    "status":  "wip",
+    "maxPlayers":  20,
+    "universeId":  null,
+    "placeId":  null
+}
